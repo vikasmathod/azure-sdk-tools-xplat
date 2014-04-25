@@ -1,1 +1,2 @@
 commands/cli.vm-tests.js
+commands/cli.network-tests.js
