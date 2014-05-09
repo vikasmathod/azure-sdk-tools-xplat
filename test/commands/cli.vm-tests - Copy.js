@@ -12,19 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 var should = require('should');
 var sinon = require('sinon');
 var util = require('util');
 var crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
-var testUtils = require('../util/util');
-var isForceMocked = !process.env.NOCK_OFF;
 
 var utils = require('../../lib/util/utils');
+var testUtils = require('../util/util');
 var CLITest = require('../framework/cli-test');
 
+var communityImageId = process.env['AZURE_COMMUNITY_IMAGE_ID'];
+var storageAccountKey = process.env['AZURE_STORAGE_ACCOUNT'] ? process.env['AZURE_STORAGE_ACCOUNT'] : 'YW55IGNhcm5hbCBwbGVhc3VyZQ==';
+var createdDisks = [];
+
+// A common VM used by multiple tests
+var vmToUse = {
+  Name: null,
+  Created: false,
+  Delete: false
+};
+
 var vmPrefix = 'clitestvm';
+var vmNames = [];
 
 var suite;
 var testPrefix = 'cli.vm-tests';
@@ -33,10 +45,19 @@ var currentRandom = 0;
 
 describe('cli', function () {
   describe('vm', function () {
+    var vmImgName = 'xplattestimg';
     var vmName = 'xplattestvm';
+    var vnetName = 'xplattestvnet';
+    var diskName = 'xplattestdisk';
+    var affinityName = 'xplattestaffingrp';
+    var vnetVmName = 'xplattestvmVnet';
+    var diskSourcePath,
+      domainUrl,
+      imageSourcePath,
+      location;
 
     before(function (done) {
-      suite = new CLITest(testPrefix, isForceMocked);
+      suite = new CLITest(testPrefix, true);
 
       if (suite.isMocked) {
         sinon.stub(crypto, 'randomBytes', function () {
@@ -52,8 +73,19 @@ describe('cli', function () {
     after(function (done) {
       if (suite.isMocked) {
         crypto.randomBytes.restore();
+        suite.teardownSuite(done);
+      } else {
+        (function deleteUsedDisk() {
+          if (createdDisks.length > 0) {
+            var diskName = createdDisks.pop();
+            suite.execute('vm disk delete -b %s --json', diskName, function () {
+              deleteUsedDisk();
+            });
+          } else {
+            suite.teardownSuite(done);
+          }
+        })();
       }
-      suite.teardownSuite(done);
     });
 
     beforeEach(function (done) {
@@ -61,72 +93,55 @@ describe('cli', function () {
     });
 
     afterEach(function (done) {
-      suite.teardownTest(done);
+      function deleteUsedVM(vm, callback) {
+        if (vm.Created && vm.Delete) {
+          suite.execute('vm delete %s -b --json --quiet', vm.Name, function () {
+            vm.Name = null;
+            vm.Created = vm.Delete = false;
+            return callback();
+          });
+        } else {
+          return callback();
+        }
+      }
+
+      deleteUsedVM(vmToUse, function () {
+        suite.teardownTest(done);
+      });
+    });
+
+
+    // Negative Test Case by specifying VM Name Twice
+    it('Negavtive test case by specifying Vm Name Twice', function (done) {
+      var vmNegName = 'xplattestvm';
+      suite.execute('vm create %s %s "azureuser" "Pa$$word@123" --json --location %s',
+        vmNegName, vmImgName, location, function (result) {
+          result.exitStatus.should.equal(1);
+          result.errorText.should.include(' A VM with dns prefix "xplattestvm" already exists');
+          return done();
+        });
     });
 
     
-// Negative Test Case by specifying invalid Password
-    it('Negavtive test case for password', function (done) {
-      var vmNegName = 'TestImg';
-	  var vmImgName = 'xplattestimg';
-	  getImageName('Linux', function (ImageName) {
-	  var location = process.env.AZURE_VM_TEST_LOCATION || 'West US';;
-	  
-      suite.execute('vm create %s %s "azureuser" "Coll" --json --location %s',
-        vmNegName, ImageName, location, function (result) { 
-          result.exitStatus.should.equal(1); 
-          result.errorText.should.include('password must be at least 8 character in length, it must contain a lower case, an upper case, a number and a special character such as !@#$%^&+=');
-          done();
-        });
-		});
-    });
-	
-	// Negative Test Case for Vm Create with Invalid Name
-    it('Negative Test Case for Vm Create with Invalid name', function (done) {
-      var vmNegName = 'test1@1';
-	  var location = process.env.AZURE_VM_TEST_LOCATION || 'West US';
-	  getImageName('Linux', function (ImageName) {
-      suite.execute('vm create %s %s "azureuser" "Pa$$word@123" --json --location %s',
-        vmNegName, ImageName, location, function (result) {
-          // check the error code for error
-          result.exitStatus.should.equal(1);
-          result.errorText.should.include('The hosted service name is invalid.');
-          done();
-        });
-		});
-    });
-	
-	// Negative Test Case by specifying invalid Location
-    it('Negative Test Case for Vm create Location', function (done) {
-      var vmNegName = 'newTestImg';
-	  getImageName('Linux', function (ImageName) {
-      suite.execute('vm create %s %s "azureuser" "Pa$$word@123" --json --location %s',
-        vmNegName, ImageName, 'SomeLoc', function (result) {
-          result.exitStatus.should.equal(1);
-          result.errorText.should.include(' No location found which has DisplayName or Name same as value of --location');
-          done();
-        });
-		});
-    });
 
-   
-	
-	// Get name of an image of the given category
+
+    // Get name of an image of the given category
     function getImageName(category, callBack) {
-			if (getImageName.imageName) {
-				callBack(getImageName.imageName);
-			} else {
-				suite.execute('vm image list --json', function (result) {
-					var imageList = JSON.parse(result.text);
-					imageList.some(function (image) {
-						if (image.operatingSystemType.toLowerCase() === category.toLowerCase() && image.category.toLowerCase() === 'public') {
-							vmImgName = image.name;
-						}
-					});
-					callBack(vmImgName);
-				});
-			}
-		}
+      if (getImageName.imageName) {
+        callBack(getImageName.imageName);
+      } else {
+        suite.execute('vm image list --json', function (result) {
+          var imageList = JSON.parse(result.text);
+          imageList.some(function (image) {
+            if (image.Category.toLowerCase() === category.toLowerCase()) {
+              getImageName.imageName = image.Name;
+            }
+          });
+
+          callBack(getImageName.imageName);
+        });
+      }
+    }
 
     // Create a VM to be used by multiple tests (this will be useful when we add more tests
     // for endpoint create/delete/update, vm create -c.
@@ -160,6 +175,5 @@ describe('cli', function () {
         data = testUtils.generateRandomString(fileSizeinBytes);
       fs.writeFileSync(filename, data);
     }
-	
   });
 });
