@@ -65,6 +65,21 @@ describe('cli', function () {
     });
 
     
+	// Negative Test Case by specifying VM Name Twice
+    it('Negavtive test case by specifying Vm Name Twice', function (done) {
+      var vmNegName = 'xplattestvm';
+	  var location = process.env.AZURE_VM_TEST_LOCATION || 'West US';
+	  getImageName('Linux', function (ImageName) {
+      suite.execute('vm create %s %s "azureuser" "Pa$$word@123" --json --location %s',
+        vmNegName, ImageName, location, function (result) { console.log(result);
+          result.exitStatus.should.equal(1);
+          result.errorText.should.include(' A VM with dns prefix "xplattestvm" already exists');
+          return done();
+        });
+		});
+    });
+
+	
 // Negative Test Case by specifying invalid Password
     it('Negavtive test case for password', function (done) {
       var vmNegName = 'TestImg';
@@ -109,21 +124,43 @@ describe('cli', function () {
 		});
     });
 
-   
+   // Create VM with custom data with large file as customdata file
+    it('negetive testcase for custom data - Large File', function (done) {
+      var customVmName = vmName + 'customdatalargefile';
+      var fileName = 'customdatalargefile';
+	  var location = process.env.AZURE_VM_TEST_LOCATION || 'West US';
+	  vmsize = 'small',
+    sshPort = '223';
+      generateFile(fileName, 70000, null);
+	  getImageName('Linux', function (ImageName) {
+      suite.execute('vm create -e %s -z %s --no-ssh-password %s %s testuser Collabera@01 -l %s -d %s --json --verbose',
+        sshPort, vmsize, customVmName, ImageName, location, fileName, function (result) { 
+		//console.log(result);
+          result.exitStatus.should.equal(1);
+          result.errorText.should.include('Input custom data file exceeded the maximum length of 65535 bytes');
+          fs.unlink(fileName, function (err) {
+            if (err)
+              throw err;
+            return done();
+          });
+        });
+		});
+    });
+
 	
 	// Get name of an image of the given category
     function getImageName(category, callBack) {
 			if (getImageName.imageName) {
 				callBack(getImageName.imageName);
-			} else {
+			} else { //var vmImgName;
 				suite.execute('vm image list --json', function (result) {
 					var imageList = JSON.parse(result.text);
-					imageList.some(function (image) {
-						if (image.operatingSystemType.toLowerCase() === category.toLowerCase() && image.category.toLowerCase() === 'public') {
-							vmImgName = image.name;
+					imageList.some(function (image) { //console.log(image);
+						if (image.operatingSystemType.toLowerCase() === category.toLowerCase() && image.category.toLowerCase() === 'public') { 
+							getImageName.imageName = image.name;
 						}
 					});
-					callBack(vmImgName);
+					callBack(getImageName.imageName);
 				});
 			}
 		}

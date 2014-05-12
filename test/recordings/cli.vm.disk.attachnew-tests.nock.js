@@ -2,7 +2,20 @@
 exports.scopes = [
   /*Attach-new*/
   [
-
+	function (nock) {
+      var result = nock('https://management.core.windows.net:443')
+        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/disks/xplattestdisk')
+        .reply(200, "<Disk xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><OS>Linux</OS><Label>xplattestdisk</Label><Location>West US</Location><LogicalDiskSizeInGB>10</LogicalDiskSizeInGB><MediaLink>http://acsforsdk2.blob.core.windows.net/vhds/xplattestdisk.vhd</MediaLink><Name>xplattestdisk</Name><IsPremium>false</IsPremium></Disk>", {
+          'cache-control': 'no-cache',
+          'content-length': '350',
+          'content-type': 'application/xml; charset=utf-8',
+          server: '1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0',
+          'x-ms-servedbyregion': 'ussouth',
+          'x-ms-request-id': 'e35f366509f81369badd171d37d21063',
+          date: 'Mon, 14 Oct 2013 15:08:58 GMT'
+        });
+      return result;
+    },
     function (nock) {
       var result = nock('https://management.core.windows.net:443')
         .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices')
@@ -89,30 +102,16 @@ exports.scopes = [
         });
       return result;
     },
-    function (nock) {
+	function (nock) {
       var result = nock('https://management.core.windows.net:443')
         .delete('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/xplattestvm/deployments/xplattestvm/roles/xplattestvm/DataDisks/0?')
-        .reply(200, "", {
+        .reply(500, "", {
           'cache-control': 'no-cache',
           'content-length': '0',
           server: '1.0.6198.27 (rd_rdfe_stable.131122-1638) Microsoft-HTTPAPI/2.0',
           'x-ms-servedbyregion': 'ussouth',
           'x-ms-request-id': '3e8e07a7838b32c3a1074b06703a9e1c',
           date: 'Mon, 25 Nov 2013 07:18:55 GMT'
-        });
-      return result;
-    },
-	function (nock) {
-      var result = nock('https://management.core.windows.net:443')
-        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/disks/xplattestdisk')
-        .reply(200, "<Disk xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><OS>Linux</OS><Label>xplattestdisk</Label><Location>West US</Location><LogicalDiskSizeInGB>10</LogicalDiskSizeInGB><MediaLink>http://acsforsdk2.blob.core.windows.net/vhds/xplattestdisk.vhd</MediaLink><Name>xplattestdisk</Name><IsPremium>false</IsPremium></Disk>", {
-          'cache-control': 'no-cache',
-          'content-length': '350',
-          'content-type': 'application/xml; charset=utf-8',
-          server: '1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0',
-          'x-ms-servedbyregion': 'ussouth',
-          'x-ms-request-id': 'e35f366509f81369badd171d37d21063',
-          date: 'Mon, 14 Oct 2013 15:08:58 GMT'
         });
       return result;
     }
