@@ -35,7 +35,7 @@ var currentRandom = 0;
 describe('cli', function () {
 	describe('vm', function () {
 		var vmName = 'xplattestvm',
-		diskName = 'testcacti-testcacti-0-201403281535100993';
+		diskName = 'xplattestdisk';
 		before(function (done) {
 			suite = new CLITest(testPrefix, isForceMocked);
 
