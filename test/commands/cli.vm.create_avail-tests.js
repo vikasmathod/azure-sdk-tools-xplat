@@ -119,7 +119,7 @@ describe('cli', function () {
         var imageList = JSON.parse(result.text);
         imageList.some(function (image) {
           if (image.operatingSystemType.toLowerCase() === category.toLowerCase() && image.category.toLowerCase() === 'public') {
-            getImageName.ImageName = image.Name;
+            getImageName.ImageName = image.name;
           }
         });
         callBack(getImageName.ImageName);
