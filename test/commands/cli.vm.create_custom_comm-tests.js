@@ -18,12 +18,14 @@ var util = require('util');
 var crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
+var exec = require('child_process').exec;
 
 var isForceMocked = !process.env.NOCK_OFF;
 
 var utils = require('../../lib/util/utils');
 var testUtils = require('../util/util');
 var CLITest = require('../framework/cli-test');
+var communityImageId = isForceMocked ? 'vmdepot-1-1-1' : process.env['AZURE_COMMUNITY_IMAGE_ID'];
 
 // A common VM used by multiple tests
 var vmToUse = {
@@ -34,11 +36,10 @@ var vmToUse = {
 
 var vmPrefix = 'clitestvm';
 var vmNames = [];
-var timeout = isForceMocked ? 0 : 5000;
 
 var suite;
-var testPrefix = 'cli.vm.create_customdata-tests';
-
+var testPrefix = 'cli.vm.create_custom_comm-tests';
+var timeout = isForceMocked ? 0 : 5000;
 var currentRandom = 0;
 
 describe('cli', function () {
@@ -79,10 +80,11 @@ describe('cli', function () {
       function deleteUsedVM(vm, callback) {
         if (vm.Created && vm.Delete) {
           setTimeout(function () {
-            suite.execute('vm delete %s -b --quiet --json', vm.Name, function (result) {
+            var cmd = util.format('vm delete %s -q --json', vm.Name).split(' ');
+            suite.execute(cmd, function (result) {
               vm.Name = null;
               vm.Created = vm.Delete = false;
-              return callback();
+              callback();
             });
           }, timeout);
         } else {
@@ -115,8 +117,8 @@ describe('cli', function () {
         });
       });
     });
-
-    // Get name of an image of the given category
+	
+	// Get name of an image of the given category
     function getImageName(category, callBack) {
       suite.execute('vm image list --json', function (result) {
         var imageList = JSON.parse(result.text);
@@ -128,6 +130,7 @@ describe('cli', function () {
         callBack(getImageName.ImageName);
       });
     }
+
     //create a file and write desired data given as input
     function generateFile(filename, fileSizeinBytes, data) {
       if (fileSizeinBytes)

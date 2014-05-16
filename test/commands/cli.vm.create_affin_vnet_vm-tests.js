@@ -26,9 +26,9 @@ var CLITest = require('../framework/cli-test');
 
 // A common VM used by multiple tests
 var vmToUse = {
-  Name : null,
-  Created : false,
-  Delete : false
+	Name : null,
+	Created : false,
+	Delete : false
 };
 
 var vmPrefix = 'clitestvm';
@@ -45,23 +45,24 @@ describe('cli', function () {
     var affinityName = 'xplataffintest',
     vmVnetName = 'xplattestvmVnet',
     vnetName = 'xplattestvnet',
-	affinLabel = 'xplatAffinGrp',
+    affinLabel = 'xplatAffinGrp',
     affinDesc = 'Test Affinty Group for xplat',
-    location = process.env.AZURE_VM_TEST_LOCATION || 'West US'
+    location = process.env.AZURE_VM_TEST_LOCATION || 'West US',
+    availSetName = 'Testset';
 
-      before(function (done) {
-        suite = new CLITest(testPrefix, isForceMocked);
+    before(function (done) {
+      suite = new CLITest(testPrefix, isForceMocked);
 
-        if (suite.isMocked) {
-          sinon.stub(crypto, 'randomBytes', function () {
-            return (++currentRandom).toString();
-          });
+      if (suite.isMocked) {
+        sinon.stub(crypto, 'randomBytes', function () {
+          return (++currentRandom).toString();
+        });
 
-          utils.POLL_REQUEST_INTERVAL = 0;
-        }
+        utils.POLL_REQUEST_INTERVAL = 0;
+      }
 
-        suite.setupSuite(done);
-      });
+      suite.setupSuite(done);
+    });
 
     after(function (done) {
       if (suite.isMocked) {
@@ -72,20 +73,22 @@ describe('cli', function () {
 
     beforeEach(function (done) {
       suite.setupTest(done);
+
     });
 
     afterEach(function (done) {
       function deleteUsedVM(vm, callback) {
         if (vm.Created && vm.Delete) {
           setTimeout(function () {
-            suite.execute('vm delete %s -b --quiet --json', vm.Name, function (result) {
+            var cmd = util.format('vm delete %s -q --json', vm.Name).split(' ');
+            suite.execute(cmd, function (result) {
               vm.Name = null;
               vm.Created = vm.Delete = false;
-              return callback();
+              callback();
             });
           }, timeout);
         } else {
-          return callback();
+          callback();
         }
       }
 
@@ -94,83 +97,99 @@ describe('cli', function () {
       });
     });
 
-    describe('Create:', function () {
+		describe('Create:', function () {
 
-      it('Virtual network', function (done) {
-        getAffinityGroup(location, function (affinGrpName) {
-          suite.execute('network vnet create %s -a %s --json', vnetName, affinGrpName, function (result) {
-            setTimeout(done, timeout);
-          });
-        });
-      });
+			it('Vm with affinity and vnet', function (done) {
+				getImageName('Linux', function (imageName) {
+					getVnet('Created', function (virtualnetName, affinityName) {
+						var cmd = util.format('vm create -A %s -n %s -a %s -w %s %s %s "azureuser" "Pa$$word@123" --json',
+								availSetName, vmVnetName, affinityName, virtualnetName, vmVnetName, imageName).split(' ');
+						suite.execute(cmd, function (result) {
+							result.exitStatus.should.equal(0);
+							vmToUse.Created = true;
+							vmToUse.Name = vmVnetName;
+							vmToUse.Delete = true;
+							done();
+						});
+					});
+				});
+			});
+		});
 
-      it('Vm with affinity and vnet', function (done) {
-        getImageName('Linux', function (imageName) {
-          getAffinityGroup(location, function (affinGrpName) {
-            suite.execute('vm create -a %s -w %s %s %s "azureuser" "Pa$$word@123" --json',
-              affinGrpName, vnetName, vmVnetName, imageName, function (result) {
-              result.exitStatus.should.equal(0);
-              vmToUse.Created = true;
-              vmToUse.Name = vmVnetName;
-              vmToUse.Delete = true;
-              done();
-            });
-          });
-        });
-      });
-    });
-	
-   describe('delete:', function () {
-      it('Virtual network', function (done) {
-        suite.execute('network vnet delete %s --quiet --json', vnetName, function (result) {
-          result.exitStatus.should.equal(0);
-          done();
-        });
-      });
-    });
+		// Get name of an image of the given category
+		function getImageName(category, callBack) {
+			if (getImageName.imageName) {
+				callBack(getImageName.imageName);
+			} else {
+				suite.execute('vm image list --json', function (result) {
+					var imageList = JSON.parse(result.text);
+					imageList.some(function (image) {
+						if (image.operatingSystemType.toLowerCase() === category.toLowerCase() && image.category.toLowerCase() === 'public') {
+							getImageName.imageName = image.name;
+							return true;
+						}
+					});
+					callBack(getImageName.imageName);
+				});
+			}
+		}
 
-    // Get name of an image of the given category
-    function getImageName(category, callBack) {
-      if (getImageName.imageName) {
-        callBack(getImageName.imageName);
-      } else {
-        suite.execute('vm image list --json', function (result) {
-          var imageList = JSON.parse(result.text);
-          imageList.some(function (image) {
-            if (image.operatingSystemType.toLowerCase() === category.toLowerCase() && image.category.toLowerCase() === 'public') {
-              getImageName.imageName = image.Name;
-              return true;
-            }
-          });
+		//get name of a vnet
+		function getVnet(status, callback) {
+			var cmd;
+			if (getVnet.vnetName) {
+				callback(getVnet.vnetName, getVnet.affinityName);
+			} else {
+				cmd = util.format('network vnet list --json').split(' ');
+				suite.execute(cmd, function (result) {
+					var vnetName = JSON.parse(result.text);
+					var found = vnetName.some(function (vnet) {
+							if (vnet.state == status) {
+								getVnet.vnetName = vnet.name;
+								getVnet.affinityName = vnet.affinityGroup;
+								return true;
+							}
+						});
 
-          callBack(getImageName.imageName);
-        });
-      }
-    }
+					if (!found) {
+						getAffinityGroup(location, function (affinGrpName) {
+							cmd = util.format('network vnet create %s -a %s --json', vnetName, affinGrpName).split(' ');
+							suite.execute(cmd, function (result) {
+								getVnet.vnetName = vnetName;
+								getVnet.affinityName = affinGrpName;
+								callback(getVnet.vnetName, getVnet.affinityName);
+							});
+						});
+					} else {
+						callback(getVnet.vnetName, getVnet.affinityName);
+					}
+				});
+			}
+		}
 
-    // Get name of an image of the given category
-    function getAffinityGroup(location, callBack) {
-      if (getAffinityGroup.affinGrpName) {
-        callBack(getAffinityGroup.affinGrpName);
-      } else {
-        suite.execute('account affinity-group list --json', function (result) {
-          var affinList = JSON.parse(result.text);
-          var found = affinList.some(function (affinGrp) {
-              if (affinGrp.location == location) {
-                getAffinityGroup.affinGrpName = affinGrp.name;
-                return true;
-              }
-            });
-          if (!found) {
-            suite.execute('account affinity-group create -l %s -e %s -d %s %s --json',
-              location, affinLabel, affinDesc, affinityName, function (result) {
-              getAffinityGroup.affinGrpName = affinityName;
-              callBack(affinityName);
-            });
-          } else
-            callBack(getAffinityGroup.affinGrpName);
-        });
-      }
-    }
-  });
+		// Get name of an image of the given category
+		function getAffinityGroup(location, callBack) {
+			if (getAffinityGroup.affinGrpName) {
+				callBack(getAffinityGroup.affinGrpName);
+			} else {
+				suite.execute('account affinity-group list --json', function (result) {
+					var affinList = JSON.parse(result.text);
+					var found = affinList.some(function (affinGrp) {
+							if (affinGrp.location == location) {
+								getAffinityGroup.affinGrpName = affinGrp.name;
+								return true;
+							}
+						});
+					if (!found) {
+						suite.execute('account affinity-group create -l %s -e %s -d %s %s --json',
+							location, affinLabel, affinDesc, affinityName, function (result) {
+							getAffinityGroup.affinGrpName = affinityName;
+							callBack(affinityName);
+						});
+					} else
+						callBack(getAffinityGroup.affinGrpName);
+				});
+			}
+		}
+	});
 });

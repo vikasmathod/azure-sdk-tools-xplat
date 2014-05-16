@@ -42,8 +42,8 @@ var currentRandom = 0;
 describe('cli', function () {
 	describe('vm', function () {
 		var location = process.env.AZURE_VM_TEST_LOCATION || 'West US',
-		vmName = 'OffshoreTestXplat',
-		file = 'FILE_PATH.json';
+		vmName = 'xplattestvm',
+		file = 'vminfo.json';
 
 		before(function (done) {
 			suite = new CLITest(testPrefix, isForceMocked);
@@ -98,7 +98,7 @@ describe('cli', function () {
 				obj['RoleName'] = vmName;
 				var jsonstr = JSON.stringify(obj);
 				fs.writeFileSync(file, jsonstr);
-				suite.execute('vm create-from %s %s --json -l %s', vmName, file, location, function (result) {
+				suite.execute('vm create-from %s %s --json -l %s', vmName, file, location, function (result) { 
 					result.exitStatus.should.equal(0);
 					fs.unlinkSync('vminfo.json');
 					vmToUse.Name = vmName;

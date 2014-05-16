@@ -74,7 +74,7 @@ describe('cli', function () {
 					diskSourcePath = diskObj.mediaLinkUri;
 					var domainUrl = 'http://' + diskSourcePath.split('/')[2];
 					var blobUrl = domainUrl + '/disks/' + diskName;
-					suite.execute('vm disk create %s %s --location %s -u %s --json', diskName, diskSourcePath, location, blobUrl, function (result) {
+					suite.execute('vm disk create %s %s --location %s -u %s --json', diskName, diskSourcePath, location, blobUrl, function (result) { 
 						suite.execute('vm disk show %s --json', diskName, function (result) {
 							var diskObj = JSON.parse(result.text);
 							diskObj.name.should.equal(diskName);

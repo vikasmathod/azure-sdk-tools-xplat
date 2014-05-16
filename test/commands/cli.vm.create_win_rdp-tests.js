@@ -18,6 +18,7 @@ var util = require('util');
 var crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
+var exec = require('child_process').exec;
 
 var isForceMocked = !process.env.NOCK_OFF;
 
@@ -26,14 +27,14 @@ var CLITest = require('../framework/cli-test');
 
 // A common VM used by multiple tests
 var vmToUse = {
-	Name : null,
-	Created : false,
-	Delete : false
+  Name : null,
+  Created : false,
+  Delete : false
 };
 
 var vmPrefix = 'clitestvm';
 var vmNames = [];
-var timeout = isForceMocked ? 0 : 5000;
+var timeout = isForceMocked ? 0 : 30000;
 
 var suite;
 var testPrefix = 'cli.vm.create_win_rdp-tests';
@@ -41,125 +42,99 @@ var testPrefix = 'cli.vm.create_win_rdp-tests';
 var currentRandom = 0;
 
 describe('cli', function () {
-	describe('vm', function () {
-		var location = process.env.AZURE_VM_TEST_LOCATION || 'West US',
-		vmName,
-		vmImgName;
+  describe('vm', function () {
+    var location = process.env.AZURE_VM_TEST_LOCATION || 'West US',
+    vmName = 'xplattestvm',
+    vmImgName;
 
-		before(function (done) {
-			suite = new CLITest(testPrefix, isForceMocked);
+    before(function (done) {
+      suite = new CLITest(testPrefix, isForceMocked);
 
-			if (suite.isMocked) {
-				sinon.stub(crypto, 'randomBytes', function () {
-					return (++currentRandom).toString();
-				});
+      if (suite.isMocked) {
+        sinon.stub(crypto, 'randomBytes', function () {
+          return (++currentRandom).toString();
+        });
 
-				utils.POLL_REQUEST_INTERVAL = 0;
-			}
+        utils.POLL_REQUEST_INTERVAL = 0;
+      }
 
-			suite.setupSuite(done);
-		});
+      suite.setupSuite(done);
+    });
 
-		after(function (done) {
-			if (suite.isMocked) {
-				crypto.randomBytes.restore();
-			}
-			suite.teardownSuite(done);
-		});
+    after(function (done) {
+      if (suite.isMocked) {
+        crypto.randomBytes.restore();
+      }
+      suite.teardownSuite(done);
+    });
 
-		beforeEach(function (done) {
-			suite.setupTest(done);
-		});
+    beforeEach(function (done) {
+      suite.setupTest(done);
+    });
 
-		afterEach(function (done) {
-			function deleteUsedVM(vm, callback) {
-				if (vm.Created && vm.Delete) {
-					setTimeout(function () {
-						suite.execute('vm delete %s --quiet --json', vm.Name, function (result) {
-							vm.Name = null;
-							vm.Created = vm.Delete = false;
-							return callback();
-						});
-					}, timeout);
-				} else {
-					return callback();
-				}
-			}
+    afterEach(function (done) {
+      function deleteUsedVM(vm, callback) {
+        if (vm.Created && vm.Delete) {
+          setTimeout(function () {
+            var cmd = util.format('vm delete %s -b -q --json', vm.Name).split(' ');
+            suite.execute(cmd, function (result) {
+              vm.Name = null;
+              vm.Created = vm.Delete = false;
+              setTimeout(callback, timeout);
+            });
+          }, timeout);
+        } else {
+          callback();
+        }
+      }
 
-			deleteUsedVM(vmToUse, function () {
-				suite.teardownTest(done);
-			});
-		});
+      deleteUsedVM(vmToUse, function () {
+        suite.teardownTest(done);
+      });
+    });
 
-		describe('Create:', function () {
-			// Creating a Windows VM
-			it('Windows Vm', function (done) {
-				getSharedVM(function (vm) {
-					vm.Created.should.be.ok;
-					setTimeout(done, timeout);
-				});
-			});
-		});
+    describe('Create:', function () {
+      it('Windows Vm', function (done) {
+        getImageName('Windows', function (ImageName) {
+          var cmd = util.format('vm create -r %s %s %s azureuser PassW0rd$ -l %s --json',
+              '3389', vmName, ImageName, 'someLoc').split(' ');
+          cmd[9] = location;
+          suite.execute(cmd, function (result) {
+            setTimeout(done, timeout);
+          });
+        });
+      });
+    });
 
-		describe('Create:', function () {
-			//connect Vm
-			it('with Connect', function (done) {
-				var vmConnect = vmName + '-2';
-				suite.execute('vm create -l %s --connect %s %s azureuser PassW0rd$ --json',
-					location, vmName, vmImgName, function (result) {
-					result.exitStatus.should.equal(0);
-					vmToUse.Name = vmConnect;
-					vmToUse.Created = true;
-					vmToUse.Delete = true;
-					setTimeout(done, timeout);
-				});
-			});
-		});
+    describe('Create:', function () {
+      //connect Vm
+      it('with Connect', function (done) {
+        var vmConnect = vmName + '-2';
+        var cmd = util.format('vm create -l %s --connect %s %s azureuser PassW0rd$ --json',
+            'someLoc', vmName, vmImgName).split(' ');
+        cmd[3] = location;
+        suite.execute(cmd, function (result) {
+          result.exitStatus.should.equal(0);
+          vmToUse.Name = vmConnect;
+          vmToUse.Created = true;
+          vmToUse.Delete = true;
+          setTimeout(done, timeout);
+        });
+      });
+    });
 
-		describe('Delete:', function () {
-			//connect Vm
-			it('Windows vm', function (done) {
-				vmToUse.Name = vmName;
-				vmToUse.Created = true;
-				vmToUse.Delete = true;
-				setTimeout(done, timeout);
-			});
-		});
-
-		// Get name of an image of the given category
-		function getImageName(category, callBack) {
-			if (getImageName.imageName) {
-				callBack(getImageName.imageName);
-			} else {
-				suite.execute('vm image list --json', function (result) {
-					var imageList = JSON.parse(result.text);
-					imageList.some(function (image) {
-						if (image.operatingSystemType.toLowerCase() === category.toLowerCase() && image.category.toLowerCase() === 'public') {
-							vmImgName = image.Name;
-						}
-					});
-
-					callBack(vmImgName);
-				});
-			}
-		}
-
-		// Create a VM to be used by multiple tests (this will be useful when we add more tests
-		// for endpoint create/delete/update, vm create -c.
-		function getSharedVM(callBack) {
-			getImageName('Windows', function (imageName) {
-				vmName = suite.generateId(vmPrefix, vmNames);
-				suite.execute('vm create -r %s %s %s azureuser PassW0rd$ --json --location %s',
-					'3389',
-					vmName,
-					imageName,
-					location,
-					function (result) {
-					vmToUse.Created = (result.exitStatus === 0);
-					vmToUse.Name = vmToUse.Created ? vmName : null;
-					return callBack(vmToUse);
-				});
-			});
-		}
-	});
+    // Get name of an image of the given category
+    function getImageName(category, callBack) {
+      var cmd = util.format('vm image list --json').split(' ');
+      suite.execute(cmd, function (result) {
+        var imageList = JSON.parse(result.text);
+        imageList.some(function (image) { //console.log(image)
+          if (image.operatingSystemType.toLowerCase() === category.toLowerCase() && image.category.toLowerCase() === 'public') {
+            vmImgName = image.name;
+          }
+        });
+        callBack(vmImgName);
+      });
+    }
+  });
 });

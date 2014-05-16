@@ -68,7 +68,7 @@ exports.scopes = [
 				.filteringRequestBody(function (path) {
 					return '*';
 				})
-				.post('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/OffshoreTestXplat/deployments', "*")
+				.post('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/xplattestvm/deployments', "*")
 				.reply(202, "", {
 					'cache-control' : 'no-cache',
 					'content-length' : '0',

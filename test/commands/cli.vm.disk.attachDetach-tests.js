@@ -66,20 +66,14 @@ describe('cli', function () {
       suite.teardownTest(done);
     });
 
-    describe('Disk:', function () {
+     describe('Disk:', function () {
       it('Attach & Detach', function (done) {
         suite.execute('vm disk attach %s %s --json', vmName, diskName, function (result) {
           suite.execute('vm show %s --json', vmName, function (result) { 
-			
             var vmObj = JSON.parse(result.text);
-			//console.log(vmObj);
             if (vmObj.DataDisks[0]) { 
-/* 			  console.log(vmObj.DataDisks[0].name);
-			  console.log('here');
-			  console.log(diskName); */
               vmObj.DataDisks[0].name.should.equal(diskName);
               suite.execute('vm disk detach %s 0 --json', vmName, function (result) { 
-			  console.log(result);
                 result.exitStatus.should.equal(0);
                 setTimeout(done, timeout);
               });

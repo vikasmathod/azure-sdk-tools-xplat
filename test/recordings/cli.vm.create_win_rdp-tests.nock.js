@@ -35,7 +35,7 @@ exports.scopes = [
     function (nock) {
       var result = nock('https://management.core.windows.net:443')
         .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices')
-        .reply(200, "<HostedServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/ACSService</Url><ServiceName>ACSService</ServiceName><HostedServiceProperties><Description i:nil=\" true \"/><Location>West US</Location><Label>QUNTU2VydmljZQ==</Label><Status>Created</Status><DateCreated>2013-10-31T12:22:34Z</DateCreated><DateLastModified>2013-11-21T13:23:12Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/babu-chefserver</Url><ServiceName>babu-chefserver</ServiceName><HostedServiceProperties><Description i:nil=\" true \"/><Location>West Europe</Location><Label>YmFidS1jaGVmc2VydmVy</Label><Status>Created</Status><DateCreated>2013-11-07T07:11:32Z</DateCreated><DateLastModified>2013-11-07T07:11:56Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/chefclient01</Url><ServiceName>chefclient01</ServiceName><HostedServiceProperties><Description i:nil=\"true\"/><Location>West US</Location><Label>Y2hlZmNsaWVudDAx</Label><Status>Created</Status><DateCreated>2013-11-11T07:15:53Z</DateCreated><DateLastModified>2013-11-11T07:16:23Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/ChefEnterprise</Url><ServiceName>ChefEnterprise</ServiceName><HostedServiceProperties><Description i:nil=\"true\"/><Location>West US</Location><Label>Q2hlZkVudGVycHJpc2U=</Label><Status>Created</Status><DateCreated>2013-11-11T04:47:33Z</DateCreated><DateLastModified>2013-11-11T04:47:58Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/chefOpenLogic</Url><ServiceName>chefOpenLogic</ServiceName><HostedServiceProperties><Description i:nil=\" true \"/><Location>West US</Location><Label>Y2hlZk9wZW5Mb2dpYw==</Label><Status>Created</Status><DateCreated>2013-11-11T05:33:45Z</DateCreated><DateLastModified>2013-11-11T05:34:02Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService></HostedServices>", {
+        .reply(200, "<HostedServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/ACSService</Url><ServiceName>ACSService</ServiceName><HostedServiceProperties><Description i:nil=\" true \"/><Location>West US</Location><Label>QUNTU2VydmljZQ==</Label><Status>Created</Status><DateCreated>2013-10-31T12:22:34Z</DateCreated><DateLastModified>2013-11-21T13:23:12Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/babu-chefserver</Url><ServiceName>babu-chefserver</ServiceName><HostedServiceProperties><Description i:nil=\" true \"/><Location>West Europe</Location><Label>YmFidS1jaGVmc2VydmVy</Label><Status>Created</Status><DateCreated>2013-11-07T07:11:32Z</DateCreated><DateLastModified>2013-11-07T07:11:56Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/chefclient01</Url><ServiceName>chefclient01</ServiceName><HostedServiceProperties><Description i:nil=\"true\"/><Location>West US</Location><Label>Y2hlZmNsaWVudDAx</Label><Status>Created</Status><DateCreated>2013-11-11T07:15:53Z</DateCreated><DateLastModified>2013-11-11T07:16:23Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/ChefEnterprise</Url><ServiceName>ChefEnterprise</ServiceName><HostedServiceProperties><Description i:nil=\"true\"/><Location>West US</Location><Label>Q2hlZkVudGVycHJpc2U=</Label><Status>Created</Status><DateCreated>2013-11-11T04:47:33Z</DateCreated><DateLastModified>2013-11-11T04:47:58Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/chefOpenLogic</Url><ServiceName>chefOpenLogic</ServiceName><HostedServiceProperties><Description i:nil=\" true \"/><Location>West US</Location><Label>Y2hlZk9wZW5Mb2dpYw==</Label><Status>Created</Status><DateCreated>2013-11-11T05:33:45Z</DateCreated><DateLastModified>2013-11-11T05:34:02Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/eclipseservice</Url><ServiceName>eclipseservice</ServiceName><HostedServiceProperties><Description i:nil=\" true \"/><Location>East US</Location><Label>ZWNsaXBzZXNlcnZpY2U=</Label><Status>Created</Status><DateCreated>2013-11-21T13:07:57Z</DateCreated><DateLastModified>2013-11-21T13:20:19Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/Guest2-2Service</Url><ServiceName>Guest2-2Service</ServiceName><HostedServiceProperties><Description i:nil=\"true\"/><Location>East US</Location><Label>Zm9v</Label><Status>Created</Status><DateCreated>2013-10-11T10:28:44Z</DateCreated><DateLastModified>2013-10-17T13:49:24Z</DateLastModified><ExtendedProperties/><GuestAgentType>testga</GuestAgentType></HostedServiceProperties></HostedService><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/vnetvmtest2</Url><ServiceName>vnetvmtest2</ServiceName><HostedServiceProperties><Description>Implicitly created hosted service</Description><AffinityGroup>affinity1</AffinityGroup><Label>dm5ldHZtdGVzdDI=</Label><Status>Created</Status><DateCreated>2013-11-20T22:13:19Z</DateCreated><DateLastModified>2013-11-20T22:13:39Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService></HostedServices>", {
           'cache-control': 'no-cache',
           'content-length': '4051',
           'content-type': 'application/xml; charset=utf-8',
@@ -126,7 +126,7 @@ exports.scopes = [
         .filteringRequestBody(function (path) {
           return '*';
         })
-        .post('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/clitestvm1/deployments', "*")
+        .post('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/xplattestvm/deployments', "*")
         .reply(202, "", {
           'cache-control': 'no-cache',
           'content-length': '0',
@@ -173,7 +173,7 @@ exports.scopes = [
     function (nock) {
       var result = nock('https://management.core.windows.net:443')
         .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices')
-        .reply(200, "<HostedServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"></HostedServices>", {
+        .reply(200, "<HostedServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/vnetvmtest2</Url><ServiceName>vnetvmtest2</ServiceName><HostedServiceProperties><Description>Implicitly created hosted service</Description><AffinityGroup>affinity1</AffinityGroup><Label>dm5ldHZtdGVzdDI=</Label><Status>Created</Status><DateCreated>2013-11-20T22:13:19Z</DateCreated><DateLastModified>2013-11-20T22:13:39Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService></HostedServices>", {
           'cache-control': 'no-cache',
           'content-length': '4051',
           'content-type': 'application/xml; charset=utf-8',
@@ -207,7 +207,7 @@ exports.scopes = [
         .reply(201, "", {
           'cache-control': 'no-cache',
           'content-length': '0',
-          location: 'https://management.core.windows.net/subscriptions/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/compute/clitestvm1customdata',
+          location: 'https://management.core.windows.net/subscriptions/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/compute/xplattestvmcustomdata',
           server: '1.0.6198.25 (rd_rdfe_stable.131118-1436) Microsoft-HTTPAPI/2.0',
           'x-ms-servedbyregion': 'ussouth',
           'x-ms-request-id': 'e201c9379bfd3a02ad915f1ef3f7c039',
@@ -264,7 +264,7 @@ exports.scopes = [
         .filteringRequestBody(function (path) {
           return '*';
         })
-        .post('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/clitestvm1/deployments', "*")
+        .post('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/xplattestvm/deployments', "*")
         .reply(202, "", {
           'cache-control': 'no-cache',
           'content-length': '0',
@@ -292,7 +292,7 @@ exports.scopes = [
     function (nock) {
       var result = nock('https://management.core.windows.net:443')
         .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices')
-        .reply(200, "<HostedServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/clitestvm1-2</Url><ServiceName>clitestvm1-2</ServiceName><HostedServiceProperties><Description>Implicitly created hosted service</Description><Location>West US</Location><Label>eHBsYXR0ZXN0dm0=</Label><Status>Created</Status><DateCreated>2013-11-22T05:21:47Z</DateCreated><DateLastModified>2013-11-22T05:22:06Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService></HostedServices>", {
+        .reply(200, "<HostedServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/xplattestvm-2</Url><ServiceName>xplattestvm-2</ServiceName><HostedServiceProperties><Description>Implicitly created hosted service</Description><Location>West US</Location><Label>eHBsYXR0ZXN0dm0=</Label><Status>Created</Status><DateCreated>2013-11-22T05:21:47Z</DateCreated><DateLastModified>2013-11-22T05:22:06Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService></HostedServices>", {
           'cache-control': 'no-cache',
           'content-length': '4051',
           'content-type': 'application/xml; charset=utf-8',
@@ -305,7 +305,7 @@ exports.scopes = [
     },
     function (nock) {
       var result = nock('https://management.core.windows.net:443')
-        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/clitestvm1-2/deploymentslots/Production')
+        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/xplattestvm-2/deploymentslots/Production')
         .reply(404, "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Code>ResourceNotFound</Code><Message>No deployments were found.</Message></Error>", {
           'cache-control': 'no-cache',
           'content-length': '2445',
@@ -316,85 +316,14 @@ exports.scopes = [
           date: 'Fri, 22 Nov 2013 05:22:18 GMT'
         });
       return result;
-    },
-	function (nock) {
-      var result = nock('https://management.core.windows.net:443')
-        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/ACSService/deploymentslots/Production')
-        .reply(200, "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Code>ResourceNotFound</Code><Message>No deployments were found.</Message></Error>", {
-          'cache-control': 'no-cache',
-          'content-length': '2445',
-          'content-type': 'application/xml; charset=utf-8',
-          server: '1.0.6198.25 (rd_rdfe_stable.131118-1436) Microsoft-HTTPAPI/2.0',
-          'x-ms-servedbyregion': 'ussouth',
-          'x-ms-request-id': '23b475bd87883e1e9335b43052357f49',
-          date: 'Fri, 22 Nov 2013 05:22:18 GMT'
-        });
-      return result;
-    },
-	function (nock) {
-      var result = nock('https://management.core.windows.net:443')
-        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/babu-chefserver/deploymentslots/Production')
-        .reply(200, "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Code>ResourceNotFound</Code><Message>No deployments were found.</Message></Error>", {
-          'cache-control': 'no-cache',
-          'content-length': '2445',
-          'content-type': 'application/xml; charset=utf-8',
-          server: '1.0.6198.25 (rd_rdfe_stable.131118-1436) Microsoft-HTTPAPI/2.0',
-          'x-ms-servedbyregion': 'ussouth',
-          'x-ms-request-id': '23b475bd87883e1e9335b43052357f49',
-          date: 'Fri, 22 Nov 2013 05:22:18 GMT'
-        });
-      return result;
-    },
-	function (nock) {
-      var result = nock('https://management.core.windows.net:443')
-        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/chefclient01/deploymentslots/Production')
-        .reply(200, "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Code>ResourceNotFound</Code><Message>No deployments were found.</Message></Error>", {
-          'cache-control': 'no-cache',
-          'content-length': '2445',
-          'content-type': 'application/xml; charset=utf-8',
-          server: '1.0.6198.25 (rd_rdfe_stable.131118-1436) Microsoft-HTTPAPI/2.0',
-          'x-ms-servedbyregion': 'ussouth',
-          'x-ms-request-id': '23b475bd87883e1e9335b43052357f49',
-          date: 'Fri, 22 Nov 2013 05:22:18 GMT'
-        });
-      return result;
-    },
-	function (nock) {
-      var result = nock('https://management.core.windows.net:443')
-        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/ChefEnterprise/deploymentslots/Production')
-        .reply(200, "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Code>ResourceNotFound</Code><Message>No deployments were found.</Message></Error>", {
-          'cache-control': 'no-cache',
-          'content-length': '2445',
-          'content-type': 'application/xml; charset=utf-8',
-          server: '1.0.6198.25 (rd_rdfe_stable.131118-1436) Microsoft-HTTPAPI/2.0',
-          'x-ms-servedbyregion': 'ussouth',
-          'x-ms-request-id': '23b475bd87883e1e9335b43052357f49',
-          date: 'Fri, 22 Nov 2013 05:22:18 GMT'
-        });
-      return result;
-    },
-	function (nock) {
-      var result = nock('https://management.core.windows.net:443')
-        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/chefOpenLogic/deploymentslots/Production')
-        .reply(200, "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Code>ResourceNotFound</Code><Message>No deployments were found.</Message></Error>", {
-          'cache-control': 'no-cache',
-          'content-length': '2445',
-          'content-type': 'application/xml; charset=utf-8',
-          server: '1.0.6198.25 (rd_rdfe_stable.131118-1436) Microsoft-HTTPAPI/2.0',
-          'x-ms-servedbyregion': 'ussouth',
-          'x-ms-request-id': '23b475bd87883e1e9335b43052357f49',
-          date: 'Fri, 22 Nov 2013 05:22:18 GMT'
-        });
-      return result;
     }
-	
   ],
   /*delete win Vm*/
   [
     function (nock) {
       var result = nock('https://management.core.windows.net:443')
         .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices')
-        .reply(200, "<HostedServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/clitestvm1</Url><ServiceName>clitestvm1</ServiceName><HostedServiceProperties><Description>Implicitly created hosted service</Description><AffinityGroup>affinity1</AffinityGroup><Label>dm5ldHZtdGVzdDI=</Label><Status>Created</Status><DateCreated>2013-11-20T22:13:19Z</DateCreated><DateLastModified>2013-11-20T22:13:39Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService></HostedServices>", {
+        .reply(200, "<HostedServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><HostedService><Url>https://management.core.windows.net/bfb5e0bf-124b-4d0c-9352-7c0a9f4d9948/services/hostedservices/xplattestvm</Url><ServiceName>xplattestvm</ServiceName><HostedServiceProperties><Description>Implicitly created hosted service</Description><AffinityGroup>affinity1</AffinityGroup><Label>dm5ldHZtdGVzdDI=</Label><Status>Created</Status><DateCreated>2013-11-20T22:13:19Z</DateCreated><DateLastModified>2013-11-20T22:13:39Z</DateLastModified><ExtendedProperties/></HostedServiceProperties></HostedService></HostedServices>", {
           'cache-control': 'no-cache',
           'content-length': '654',
           'content-type': 'application/xml; charset=utf-8',
@@ -407,7 +336,7 @@ exports.scopes = [
     },
     function (nock) {
       var result = nock('https://management.core.windows.net:443')
-        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/clitestvm1/deploymentslots/Production')
+        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/hostedservices/xplattestvm/deploymentslots/Production')
         .reply(404, "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"><Code>ResourceNotFound</Code><Message>No deployments were found.</Message></Error>", {
           'cache-control': 'no-cache',
           'content-length': '3720',
@@ -416,6 +345,23 @@ exports.scopes = [
           'x-ms-servedbyregion': 'ussouth',
           'x-ms-request-id': '23b475bd87883e1e9335b43052357f49',
           date: 'Fri, 22 Nov 2013 05:22:18 GMT'
+        });
+      return result;
+    }
+  ],
+  /*vnet delete*/
+  [
+    function (nock) {
+      var result = nock('https://management.core.windows.net:443')
+        .get('/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/networking/media')
+        .reply(200, "<?xml version=\"1.0\" encoding=\"utf-8\"?><NetworkConfiguration xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration\"><VirtualNetworkConfiguration><Dns><DnsServers><DnsServer name=\"demodns\" IPAddress=\"172.16.77.66\" /><DnsServer name=\"DNS\" IPAddress=\"1.2.3.4\" /></DnsServers></Dns><VirtualNetworkSites><VirtualNetworkSite name=\"5abcd\" AffinityGroup=\"RubyT\"><AddressSpace><AddressPrefix>172.16.0.10/12</AddressPrefix><AddressPrefix>10.0.0.0/8</AddressPrefix><AddressPrefix>192.168.0.0/24</AddressPrefix></AddressSpace><Subnets><Subnet name=\"Subnet-1\"><AddressPrefix>172.16.0.0/12</AddressPrefix></Subnet></Subnets><DnsServersRef><DnsServerRef name=\"demodns\" /></DnsServersRef></VirtualNetworkSite><VirtualNetworkSite name=\"newvnet\" AffinityGroup=\"integration-test-affinity-group\"><AddressSpace><AddressPrefix>10.0.0.0/8</AddressPrefix></AddressSpace><Subnets><Subnet name=\"Subnet-1\"><AddressPrefix>10.0.0.0/16</AddressPrefix></Subnet></Subnets><DnsServersRef><DnsServerRef name=\"DNS\" /></DnsServersRef></VirtualNetworkSite><VirtualNetworkSite name=\"test\" AffinityGroup=\"RubyT\"><AddressSpace><AddressPrefix>10.0.0.0/8</AddressPrefix></AddressSpace><Subnets><Subnet name=\"Subnet-1\"><AddressPrefix>10.0.0.0/16</AddressPrefix></Subnet></Subnets><DnsServersRef><DnsServerRef name=\"DNS\" /></DnsServersRef></VirtualNetworkSite><VirtualNetworkSite name=\"virtual_network\" AffinityGroup=\"RubyT\"><AddressSpace><AddressPrefix>172.16.0.0/12</AddressPrefix><AddressPrefix>10.0.0.0/8</AddressPrefix><AddressPrefix>192.168.0.0/24</AddressPrefix></AddressSpace><Subnets><Subnet name=\"Subnet-1\"><AddressPrefix>172.16.0.0/12</AddressPrefix></Subnet></Subnets><DnsServersRef><DnsServerRef name=\"DNS\" /></DnsServersRef></VirtualNetworkSite></VirtualNetworkSites></VirtualNetworkConfiguration></NetworkConfiguration>", {
+          'cache-control' : 'no-cache',
+          'content-length' : '2589',
+          'content-type' : 'text/plain',
+          server : '1.0.6198.27 (rd_rdfe_stable.131122-1638) Microsoft-HTTPAPI/2.0',
+          'x-ms-servedbyregion' : 'ussouth',
+          'x-ms-request-id' : 'feaa2c382568302ea75808432bbb46bf',
+          date : 'Mon, 25 Nov 2013 07:26:20 GMT'
         });
       return result;
     }
