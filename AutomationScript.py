@@ -25,20 +25,15 @@ def create_file(path):
 def execute_command_with_flag(cmd,logfile,flag,metalog):
 	if(flag == "1"):
 		p1 = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		#example_1(10)
-		lines = p1.stdout.readlines()
+		lines = p1.stdout.read()
 		nooflines = len(lines)
-		global countprg
-		countprg+=1
-		global countpercentage
-		countpercentage = float(countprg * nooflines) / 100
 		str = 'Executing......'+ metalog.replace("*","")
 		print str
-		# bar = progressbar.ProgressBar(maxval=int(round(countpercentage * 100)),widgets=[progressbar.Bar('.', '[', ']'), ' ', progressbar.Percentage()])
-		bar = progressbar.ProgressBar(maxval=int(round(countpercentage * 100)),widgets=[progressbar.Bar('.'), ' ', progressbar.Percentage()])
-		for i in xrange(int(round(countpercentage * 100))):
+		bar = progressbar.ProgressBar(maxval=int(nooflines),widgets=[progressbar.Bar('.'), ' ', progressbar.Percentage()])
+		for i in xrange(int(nooflines)):
 		 bar.update(i+1)
-		 time.sleep(0.9)
+		 time.sleep(0.01)
+		bar.finish()
 		p1.wait()
 		out,err =  p1.communicate()
 		result = out.decode()
@@ -59,9 +54,6 @@ def execute_command_with_flag(cmd,logfile,flag,metalog):
 		 str1 = metalog.replace("*","")+'--PASS'
 		 print str1
    
-        
-
-
 def totalcases():
      print 'Total No of Pass:',countok
      print 'Total No of Fail:', counterr
@@ -72,11 +64,6 @@ def execute_command(cmd,logfile,metalog):
 	for line in p1.stdout.readlines():
 		logfile.write(line)
 	p1.wait()
-	
-	
-	
-	
-	
 	
 
 if __name__ == "__main__":

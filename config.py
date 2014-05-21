@@ -17,21 +17,21 @@ config = {
 "CONFIG_VALUE" : "Value",
 
 #************** VM VARIABLES *****************
-"VM_NAME" : "OffshoreTestXplat",
+"VM_NAME" : "XplatTestVM",
 #"VM_NAME" : "OffshoreTest",
 "VM_WIN_NAME" : "TestXplatWin",
-"VM_VNET_NAME" : "OffshoreTestXplatVNet",
-"VM_VNET_LABEL" : "Offshore_Xplat_vnet_img_vm",
-"VM_SIZE_NAME" : "OffshoreTestXplatSize",
-"VM_COMM_NAME" : "OffshoreTestXplatComm",
-"VM_SSH_NAME" : "OffshoreTestXplatSsh",
-"VM_CUSTOMDATA_NAME" : "OffshoreTestXplatCustomdata",
+"VM_VNET_NAME" : "XplatTestVNet",
+"VM_VNET_LABEL" : "Xplat_vnet_img_vm",
+"VM_SIZE_NAME" : "XplatTestVMSize",
+"VM_COMM_NAME" : "XplatTestComm",
+"VM_SSH_NAME" : "XplatTestSsh",
+"VM_CUSTOMDATA_NAME" : "XplatCustomdata",
 "LOGINUSER" : "v-rajeea@microsoft.com",
 "LOGINPASSWORD" : "Collabera@05",
 
-"IMAGE_NAME" :"OffshoreTestXplatImage002",
+"IMAGE_NAME" :"XplatTestImage",
 "WIN_IMAGE_NAME" :"Some Windows Image Name", #diskname is obtained from vm image list and choose the one with windows
-"VM_VNET_IMAGE_NAME" :"OffshoreTestXplatImage002",
+"VM_VNET_IMAGE_NAME" :"XplatTestImage",
 "VM_COMM_IMAGE_NAME" :"Some community image name", #browse http://vmdepot.msopentech.com/ select a vm anc click on deployment button
 
 "USER_NAME" :"XplatTestUser",
@@ -39,26 +39,26 @@ config = {
 "LOCATION":'"West US"',
 
 #************** VM IMAGE VARIABLES *****************
-"AFFINITY_GRP_NAME":"OffshoreTestXplatAffinGrp",
-"AFFINITY_GRP_LABEL":"OffshoreTestXplatGrp",
-"AFFINITY_GRP_DESC":'"Test Offshore Affinity Group"',
+"AFFINITY_GRP_NAME":"XplatTestAffinGrp",
+"AFFINITY_GRP_LABEL":"XplatTestGrp",
+"AFFINITY_GRP_DESC":'"Test Affinity Group"',
 
 #************** VM NETWORK VARIABLES *****************
 "NETWORK_NAME":"offshoreTestXplatNetwork",
 
 #************** VM IMAGE VARIABLES *****************
-"VM_IMAGE_NAME" : "OffshoreTestXplatImage002",
-"VM_IMAGE_LABEL" : "OffshoreTestXplatImage",
+"VM_IMAGE_NAME" : "XplatTestImage",
+"VM_IMAGE_LABEL" : "XplatTestImageLabel",
 "VM_IMAGE_DESC" : '"Test Offshore Image"',
 "VM_DISK_SOURCE_PATH" :"VM_DISK_SOURCE_PATH", #mediauri obtained from vm disk show diskname(diskname is obtained from vm disk list and choose the one with linux as os)
 "IMAGE_BLOB_URL" : "IMAGE_BLOB_URL",		#http://StoragecontainerUrl/vm-images/OffshoreXplatTestImage002"
-"TARGET_IMG_NAME" : "OffshoreTestXplatImage003",
+"TARGET_IMG_NAME" : "XplatTestTargetImg",
 
 #************** VM DISK IMAGE VARIABLES *****************
-"VM_DISK_IMAGE_NAME" :"OffshoreTestXplatDiskImage002",
-"VM_DISK_NEW_IMAGE_NAME" :"OffshoreTestXplatDiskImage003",
-"VM_DISK_LABEL" : "OffshoreTestXplatDisk",
-"VM_DISK_NEW_LABEL" : "OffshoreTestXplatDisk001",
+"VM_DISK_IMAGE_NAME" :"XplatTestDiskImage",
+"VM_DISK_NEW_IMAGE_NAME" :"XplatTestDiskNewImage",
+"VM_DISK_LABEL" : "XplatTestDisklbl",
+"VM_DISK_NEW_LABEL" : "XplatTestDiskNewlbl",
 "VM_DISK_DESC" : '"Test Offshore Disk"',
 "DISK_IMAGE_BLOB_URL": "DISK_IMAGE_BLOB_URL", 			#http://StoragecontainerUrl/disks/OffshoreXplatTestDisk"
 "VM_DISK_ATTACH_BLOB_URL": "VM_DISK_ATTACH_BLOB_URL", 	#http://StoragecontainerUrl/disks/disknewupload.vhd"
@@ -102,7 +102,7 @@ config = {
 "AZURE_HELP_FLAG" : "0" ,
 "ACCOUNT_DWNLD_FLAG" : "0" ,
 "ACCOUNT_IMPRT_FLAG" : "0" ,
-"ACCOUNT_LIST_FLAG" : "0" ,
+"ACCOUNT_LIST_FLAG" : "1" ,
 "ACCOUNT_SET_FLAG" : "0" ,
 "ACCOUNT_AFF_GRP_FLAG" : "0" ,
 "ACCOUNT_AFF_GRP_CREATE_FLAG" : "0" ,
@@ -114,7 +114,7 @@ config = {
 "AZURE_LOC_LIST_FLAG" : "0" ,
 "AZURE_SERVICE_DEL_FLAG" : "0" ,
 "ACCOUNT_CLEAR_FLAG" : "0" ,
-"AZURE_LOGIN_FLAG" : "1",
+"AZURE_LOGIN_FLAG" : "0",
 # VM FLAGS
 
 "VM_CREATE_FLAG" : "0" ,
@@ -148,7 +148,7 @@ config = {
 # IMAGE FLAGS
 
 "IMAGE_CREATE_FLAG" : "0" ,
-"IMAGE_LIST_FLAG" : "0" ,
+"IMAGE_LIST_FLAG" : "1" ,
 "IMAGE_SHOW_FLAG" : "0" ,
 "IMAGE_DEL_FLAG" : "0" ,
 
