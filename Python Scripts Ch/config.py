@@ -36,7 +36,7 @@ config = {
 
 "USER_NAME" :"XplatTestUser",
 "PASSWORD" :"Pa$$word@123" ,
-"LOCATION":'"West US"',
+"LOCATION":'"China North"',
 
 #************** VM IMAGE VARIABLES *****************
 "AFFINITY_GRP_NAME":"XplatTestAffinGrp",
@@ -149,7 +149,7 @@ config = {
 # IMAGE FLAGS
 
 "IMAGE_CREATE_FLAG" : "0" ,
-"IMAGE_LIST_FLAG" : "1" ,
+"IMAGE_LIST_FLAG" : "0" ,
 "IMAGE_SHOW_FLAG" : "0" ,
 "IMAGE_DEL_FLAG" : "0" ,
 

@@ -26,8 +26,8 @@ config = {
 "VM_COMM_NAME" : "XplatTestComm",
 "VM_SSH_NAME" : "XplatTestSsh",
 "VM_CUSTOMDATA_NAME" : "XplatCustomdata",
-"LOGINUSER" : "v-rajeea@microsoft.com",
-"LOGINPASSWORD" : "Collabera@05",
+"LOGINUSER" : "LOGINUSER",
+"LOGINPASSWORD" : "LOGINPASSWORD",
 
 "IMAGE_NAME" :"XplatTestImage",
 "WIN_IMAGE_NAME" :"Some Windows Image Name", #diskname is obtained from vm image list and choose the one with windows
@@ -91,7 +91,8 @@ config = {
 
 #************** FLAG VALUES **************************
 
-"GLOBAL_FLAG" : "0",
+"GLOBAL_FLAG" : "1",
+"Azure_AD_Login_FLAG" : "1",
 
 # NPM FLAGS
 
@@ -114,7 +115,7 @@ config = {
 "AZURE_LOC_LIST_FLAG" : "0" ,
 "AZURE_SERVICE_DEL_FLAG" : "0" ,
 "ACCOUNT_CLEAR_FLAG" : "0" ,
-"AZURE_LOGIN_FLAG" : "0",
+"AZURE_LOGIN_FLAG" : "1",
 # VM FLAGS
 
 "VM_CREATE_FLAG" : "0" ,
