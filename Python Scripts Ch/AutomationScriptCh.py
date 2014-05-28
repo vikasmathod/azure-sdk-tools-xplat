@@ -26,8 +26,6 @@ def execute_command_with_flag(cmd,logfile,flag,metalog):
 		p1 = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		lines = p1.stdout.read()
 		nooflines = len(lines)
-		str = 'Executing......'
-		print str
 		p1.wait()
 		out,err =  p1.communicate()
 		result = out.decode()
@@ -56,8 +54,6 @@ def execute_command(cmd,logfile,metalog):
    	p1 = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	lines = p1.stdout.read()
 	nooflines = len(lines)
-	str = 'Executing......'
-	print str
 	p1.wait()
 	out,err =  p1.communicate()
 	result = out.decode()
